@@ -1,4 +1,5 @@
 import csv, os, sys, urllib2
+import datetime
 
 def main(in_file, scope):
     '''
@@ -13,16 +14,20 @@ def main(in_file, scope):
     Search for stuff for each _accused in list
     
     '''
-    url = "https://www.fjc.gov/sites/default/files/history/judges.csv"
-
+    now = datetime.datetime.now()
+    curr_year = now.year
+    
+    jdg_url = "https://www.fjc.gov/sites/default/files/history/judges.csv"
+    can_url = "https://www.fec.gov/files/bulk-downloads/"+curr_year+"/candidate_summary_"+curr_year+".csv"
+    
     cleaned_master = _get_file_name(in_file)
     
     _clean_judge_csv(in_file, cleaned_master, scope)
 
 def _get_remote_csv(url):
-    # Get new remote csv, save locally
-    with open('lists/new_judges.csv','wb') as f:
-        f.write(urllib2.urlopen(url).read())
+    # Get new remote csv, return a reader for it
+    res = urllib2.urlopen(url)
+    return csv.reader(res)
 
 def _get_local_csv(file_path):
     return csv.reader(file_path)
@@ -32,6 +37,11 @@ def _get_file_name(file_path):
     return os.path.splitext(file_path)[0]+"_cleaned.csv"
 
 def _clean_judge_csv(in_file, out_file, scope=None):
+    '''
+    Change this to take a csv reader and scope only.
+
+    Save the output to lists/<filename>_cleaned.csv
+    '''
     # Clean out dead judges
     with open(in_file, 'rb') as inp, open(out_file, 'wb') as out:
         writer = csv.writer(out)
