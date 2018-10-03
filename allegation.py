@@ -87,7 +87,7 @@ def _get_file_name(file_path):
 def _clean_candidate_csv(in_writer,scope=None,funds=None):
     '''
 
-    Remove candidates who's campaign donation reciepts total < $300,000
+    Remove candidates who's campaign donation reciepts total < funds
 
     Filter either 'r': Replublican, or 'd': Democrat, or '': All judges.
 
