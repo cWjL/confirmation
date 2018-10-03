@@ -8,7 +8,6 @@ def main(scope):
     TODO: Create _accused objects
     TODO: Get filtered csv lists and extract usable stuff
     TODO: init new _accused class with name, party, hometown, DOB, etc. Put in list
-    TODO: Do the candidate csv stuff
     TODO: Search for stuff for each _accused in list
     **********************************************************************************
     '''
@@ -18,7 +17,8 @@ def main(scope):
     jdg_url = "https://www.fjc.gov/sites/default/files/history/judges.csv"
     can_url = "https://www.fec.gov/files/bulk-downloads/"+curr_year+"/candidate_summary_"+curr_year+".csv"
     
-    _clean_judge_csv(_get_remote_csv(jdg_url),scope)
+    #_clean_judge_csv(_get_remote_csv(jdg_url),scope)
+    _clean_candidate_csv(_get_remote_csv(can_url),scope)
 
 def _get_remote_csv(url):
     # Get new remote csv, return a reader for it
@@ -32,13 +32,53 @@ def _get_file_name(file_path):
     # Remove file extension
     return os.path.splitext(file_path)[0]+"_cleaned.csv"
 
+def _clean_candidate_csv(in_writer,scope=None):
+    '''
+
+    Remove candidates who's campaign donation reciepts total < $300,000
+
+    Filter either 'r': Replublican, or 'd': Democrat, or '': All judges.
+
+    Write to new csv in lists/ directory.
+
+    '''
+    party = None
+        # get output file label
+    if scope is None:
+        party = "all"
+    elif scope in ( "r","republican","R","Republican"):
+        party = "repub"
+    elif scope in ("d","democrat","D","Democrat","democratic","Democratic"):
+        party = "democrat"
+        
+    out_file = "lists/candidates_"+party+".csv"
+
+    with open(out_file, 'wb') as out:
+        writer = csv.writer(out)
+        if scope is None:
+            #something
+            for row in in_writer:
+                writer.writerow(row)
+        elif scope is "r":
+            #something
+            for row in in_writer:
+                if (row[6] in ("REP","REPUBLICAN","r","R") and int(float(row[8])) > 300000) or row[0] == ("Link_Image"):
+                    writer.writerow(row)
+        elif scope is "d":
+            #something
+            for row in in_writer:
+                if (row[6] in ("DEM","DEMOCRAT","DEMOCRATIC","d","D") and int(float(row[8])) > 300000) or row[0] == ("Link_Image"):
+                    writer.writerow(row)
+
 def _clean_judge_csv(in_writer,scope=None):
     '''
+
     Remove "Terminated" judges from csv writer passed to it.
 
     Filter either 'r': Replublican, or 'd': Democrat, or '': All judges.
 
     Write to new csv in lists/ directory.
+
     '''
     party = None
     # get output file label
