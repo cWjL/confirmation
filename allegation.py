@@ -39,28 +39,36 @@ def main():
         jdg_rem = _get_remote_csv(jdg_url)
     except urllib2.HTTPError as e:
         print(b_prefix+"HTTP Error: " + str(e.reason))
-        print(traceback.format_exc())
+        print(b_prefix+"Exiting...")
+        sys.exit(1)
     except urllib2.URLError as e:
         print(b_prefix+"URL Error: " + str(e.reason))
-        print(traceback.format_exc())
+        print(b_prefix+"Exiting...")
+        sys.exit(1)
     except Exception as e:
         print(b_prefix+"Generic Exception: " + str(e.message))
-        print(traceback.format_exc()) 
+        print(b_prefix+"Exiting...")
+        sys.exit(1)
     print(g_prefix+"Remote files successfully retrieved")
     time.sleep(2)
     
     print(g_prefix+"Filtering csv files..")
-    if args.repub:
-        who = "r"
-        _clean_candidate_csv(can_rem,who,args.money)
-        _clean_judge_csv(jdg_rem,who)
-    elif args.demo:
-        who = "d"
-        _clean_candidate_csv(can_rem,who,args.money)
-        _clean_judge_csv(jdg_rem,who)
-    else:
-        _clean_candidate_csv(can_rem,who,args.money)
-        _clean_judge_csv(jdg_rem,who)
+    try:
+        if args.repub:
+            who = "r"
+            _clean_candidate_csv(can_rem,who,args.money)
+            _clean_judge_csv(jdg_rem,who)
+        elif args.demo:
+            who = "d"
+            _clean_candidate_csv(can_rem,who,args.money)
+            _clean_judge_csv(jdg_rem,who)
+        else:
+            _clean_candidate_csv(can_rem,who,args.money)
+            _clean_judge_csv(jdg_rem,who)
+    except Exception as e:
+        print(b_prefix+"CSV processing error")
+        print(b_prefix+"Exiting...")
+        sys.exit(1)
 
     sys.exit(0)
 
