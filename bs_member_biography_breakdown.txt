@@ -7,10 +7,12 @@
 <span class="sub_heading">Religion:</span> Episcopalian<br/>
 <span class="sub_heading">Family:</span> Wife, Anne Garland Walton; two children<br/>
 <span class="sub_heading">Education:</span> Yuba Junior College, A.A. 1952; Chico State College, B.A. 1958<br/>
-<span class="sub_heading">Elected:</span> 1973<br/><span class="sub_heading">Committee Assignments:</span> Natural Resources (Federal Lands; Indian, Insular and Alaska Native Affairs); Transportation &amp; Infrastructure (Aviation; Coast Guard &amp; Maritime Transportation; Highways &amp; Transit)<br/>
+<span class="sub_heading">Elected:</span> 1973<br/>
+<span class="sub_heading">Committee Assignments:</span> Natural Resources (Federal Lands; Indian, Insular and Alaska Native Affairs); Transportation &amp; Infrastructure (Aviation; Coast Guard &amp; Maritime Transportation; Highways &amp; Transit)<br/>
 <span class="sub_heading">Social Media:</span>
-<a href="http://www.facebook.com/RepDonYoung" target="_blank"><img src="/images/member/fb.png" style="border:none;height:19px;width:19px;margin-left:15px;"/></a>
-<a href="http://www.twitter.com/repdonyoung" target="_blank"><img src="/images/member/twitter.png" style="border:none;height:19px;width:19px;margin-left:10px;"/></a>
-<a href="http://www.youtube.com/RepDonYoung" target="_blank"><img src="/images/member/youtube.png" style="border:none;height:19px;width:19px;margin-left:10px;"/></a><br/>
+	<a href="http://www.facebook.com/RepDonYoung" target="_blank"></a>
+	<a href="http://www.twitter.com/repdonyoung" target="_blank"></a>
+	<a href="http://www.youtube.com/RepDonYoung" target="_blank"></a>
+<br/>
 <br style="clear:both;"/>
 </div>
