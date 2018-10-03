@@ -14,6 +14,7 @@ def main(url):
     
     #bs_data = BeautifulSoup(site_str,features="html.parser")
     bs_data = BeautifulSoup(site_bytearray,"html.parser")
+    # Try lxml parser
     #div = bs_data.find("div", class_="member_biography")
     #div = bs_data.find(id='member_headline')
     #site_str_json = json.dumps(div)
