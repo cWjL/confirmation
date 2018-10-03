@@ -1,5 +1,5 @@
 import urllib.request
-import sys
+import sys, json
 from bs4 import BeautifulSoup
 
 def main(url):
@@ -12,10 +12,15 @@ def main(url):
     
     site_str = site_bytearray.decode("utf8")
     
-    bs_data = BeautifulSoup(site_str,features="html.parser")
-    div = bs_data.find("div", class_="member_biography")
+    #bs_data = BeautifulSoup(site_str,features="html.parser")
+    bs_data = BeautifulSoup(site_bytearray,"html.parser")
+    #div = bs_data.find("div", class_="member_biography")
     #div = bs_data.find(id='member_headline')
-    print(div)
+    #site_str_json = json.dumps(div)
+    tmplist = bs_data.find_all('span',{'class':'sub_heading'})
+    #for item in tmplist:
+    #    print(item.text)
+    print(tmplist)
     sys.exit(0)
     
 if __name__ == "__main__":
