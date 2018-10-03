@@ -1,8 +1,19 @@
 #!/usr/bin/env python
-import csv, os, sys, urllib2
-import datetime
+import csv, os, sys, traceback, time
+import datetime, argparse, colorama
+from colorama import Fore, Style
 
-def main(scope):
+b_prefix = "["+Fore.RED+"*"+Style.RESET_ALL+"] "
+g_prefix = "["+Fore.GREEN+"*"+Style.RESET_ALL+"] "
+
+args = None
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-r", action='store_true',dest='repub',help='Get republican data')
+parser.add_argument("-d",action='store_true',dest='demo',help='Get democrat data')
+parser.add_argument("-m",action='store',dest='money',help='Minimum campaign money in coffers')
+
+def main():
     '''
     **********************************************************************************
     TODO: Create _accused objects
@@ -11,14 +22,47 @@ def main(scope):
     TODO: Search for stuff for each _accused in list
     **********************************************************************************
     '''
+    global b_prefix
+    global g_prefix
+    global args
+    args = parser.parse_args()
+    who = None
     now = datetime.datetime.now()
     curr_year = str(now.year)
     
     jdg_url = "https://www.fjc.gov/sites/default/files/history/judges.csv"
     can_url = "https://www.fec.gov/files/bulk-downloads/"+curr_year+"/candidate_summary_"+curr_year+".csv"
+
+    print(g_prefix+"Gathering remote files..")
+    try:
+        can_rem = _get_remote_csv(can_url)
+        jdg_rem = _get_remote_csv(jdg_url)
+    except urllib2.HTTPError as e:
+        print(b_prefix+"HTTP Error: " + str(e.reason))
+        print(traceback.format_exc())
+    except urllib2.URLError as e:
+        print(b_prefix+"URL Error: " + str(e.reason))
+        print(traceback.format_exc())
+    except Exception as e:
+        print(b_prefix+"Generic Exception: " + str(e.message))
+        print(traceback.format_exc()) 
+    print(g_prefix+"Remote files successfully retrieved")
+    time.sleep(2)
     
-    #_clean_judge_csv(_get_remote_csv(jdg_url),scope)
-    _clean_candidate_csv(_get_remote_csv(can_url),scope)
+    print(g_prefix+"Filtering csv files..")
+    if args.repub:
+        who = "r"
+        _clean_candidate_csv(can_rem,who,args.money)
+        _clean_judge_csv(jdg_rem,who)
+    elif args.demo:
+        who = "d"
+        _clean_candidate_csv(can_rem,who,args.money)
+        _clean_judge_csv(jdg_rem,who)
+    else:
+        _clean_candidate_csv(can_rem,who,args.money)
+        _clean_judge_csv(jdg_rem,who)
+
+    sys.exit(0)
 
 def _get_remote_csv(url):
     # Get new remote csv, return a reader for it
@@ -32,7 +76,7 @@ def _get_file_name(file_path):
     # Remove file extension
     return os.path.splitext(file_path)[0]+"_cleaned.csv"
 
-def _clean_candidate_csv(in_writer,scope=None):
+def _clean_candidate_csv(in_writer,scope=None,funds=None):
     '''
 
     Remove candidates who's campaign donation reciepts total < $300,000
@@ -43,7 +87,11 @@ def _clean_candidate_csv(in_writer,scope=None):
 
     '''
     party = None
-        # get output file label
+    money = None
+    
+    if funds is not None:
+        money = funds
+
     if scope is None:
         party = "all"
     elif scope in ( "r","republican","R","Republican"):
@@ -108,4 +156,9 @@ def _clean_judge_csv(in_writer,scope=None):
                     writer.writerow(row)
             
 if __name__ == "__main__":
-    main(sys.argv[1])
+    try:
+        import urllib.request as urllib2
+    except ImportError:
+        import urllib2
+    colorama.init()
+    main()
