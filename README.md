@@ -9,3 +9,7 @@ the same age +/- 3 years) at the same time.
     
 Compile relational csv file to store results
 
+Dependencies:
+
+    python -m pip install lxml
+    python -m pip install bs4
