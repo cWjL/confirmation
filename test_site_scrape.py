@@ -1,5 +1,5 @@
 import urllib.request
-import sys, json
+import sys
 from bs4 import BeautifulSoup
 
 def main(url):
@@ -10,18 +10,11 @@ def main(url):
     site_bytearray = fp.read()
     fp.close()
     
-    site_str = site_bytearray.decode("utf8")
-    
     #bs_data = BeautifulSoup(site_str,features="html.parser")
-    bs_data = BeautifulSoup(site_bytearray,"html.parser")
-    # Try lxml parser
-    #div = bs_data.find("div", class_="member_biography")
-    #div = bs_data.find(id='member_headline')
-    #site_str_json = json.dumps(div)
+    bs_data = BeautifulSoup(site_bytearray,'lxml')
     tmplist = bs_data.find_all('span',{'class':'sub_heading'})
-    #for item in tmplist:
-    #    print(item.text)
-    print(tmplist)
+    for item in tmplist:
+        print(item.text)
     sys.exit(0)
     
 if __name__ == "__main__":
