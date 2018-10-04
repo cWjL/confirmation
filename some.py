@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import sys,time,progressbar
+from include.accused import accused
 
 class some():
     '''
@@ -40,6 +41,9 @@ class some():
             self.__MASTER_LIST.append(new_list)
             time.sleep(2) # don't DoS __BASE_URL
             
+    def list_some(self):
+        tar_data = []
+        for _item in __MASTER_LIST:
             
 '''
 >>>str = "June 9, 1933; Meridian, Ca
