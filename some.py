@@ -9,13 +9,17 @@ class some():
             current city
             college attended
     '''
-    def __init__(self):
+    def __init__(self, scope=None):
         '''
             init
         '''
-        self.__MAXX = 50000
+        if scope is None:
+            self.__MAXX = 50000
+        else:
+            self.__MAXX = scope
         self.__BASE_URL ="http://media.cq.com/members/"
         self.__MASTER_LIST = []
+        self.__ACCUSED_LIST = []
         
     def get_some(self):
         '''
@@ -31,6 +35,9 @@ class some():
             
             bs_data = BeautifulSoup(site_bytearray,'lxml')
             name = bs_data.find('div', {'id':'member_headline'}) # get name
+            if name.text in ("No Member ID"): # skip missing members
+                continue
+                
             tmplist = bs_data.find_all('span',{'class':'sub_heading'}) # get remaining data
             
             new_list.append(["Name:", name.text]) # prime list with target name
@@ -44,6 +51,9 @@ class some():
     def list_some(self):
         tar_data = []
         for _item in __MASTER_LIST:
+            # TODO filter text in __MASTER_LIST 
+            # add to __ACCUSED_LIST, call from get_some() after data is 
+            # compiled
             
 '''
 >>>str = "June 9, 1933; Meridian, Ca
