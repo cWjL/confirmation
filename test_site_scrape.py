@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import urllib.request
 import sys
 from bs4 import BeautifulSoup
@@ -13,8 +14,14 @@ def main(url):
     #bs_data = BeautifulSoup(site_str,features="html.parser")
     bs_data = BeautifulSoup(site_bytearray,'lxml')
     tmplist = bs_data.find_all('span',{'class':'sub_heading'})
+    new_list = []
     for item in tmplist:
-        print(item.text)
+        new_list.append([item.text, item.next_sibling])
+        #print('{:<25} {}'.format(item.text, item.next_sibling))
+
+    for item in new_list:
+        print(item[0])
+        
     sys.exit(0)
     
 if __name__ == "__main__":
