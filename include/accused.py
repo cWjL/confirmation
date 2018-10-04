@@ -11,4 +11,9 @@ class accused():
     def set_dob(self,new_dob):
         self.dob = new_dob
         
-    def 
+    def set_tar_data(self, mi=None, dob=None, city=None, state=None, party):
+        self.__mi = mi
+        self.__dob = dob
+        self.__city = city
+        self.__state = state
+        self.__party = party
