@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import urllib.request
 import sys
 from bs4 import BeautifulSoup
 
@@ -7,7 +6,7 @@ def main(url):
     '''
         http://media.cq.com/members/95  member numbers start at 1
     '''
-    fp = urllib.request.urlopen(url)
+    fp = urllib2.urlopen(url)
     site_bytearray = fp.read()
     fp.close()
     
@@ -20,9 +19,13 @@ def main(url):
         #print('{:<25} {}'.format(item.text, item.next_sibling))
 
     for item in new_list:
-        print(item[0])
+        print(item)
         
     sys.exit(0)
     
 if __name__ == "__main__":
+    try:
+        import urllib.request as urllib2
+    except ImportError:
+        import urllib2
     main(sys.argv[1])
