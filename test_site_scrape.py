@@ -17,12 +17,14 @@ def main():
         fp.close()
         
         bs_data = BeautifulSoup(site_bytearray,'lxml')
+        # get name
         name = bs_data.find('div', {'id':'member_headline'})
+        # get remaining data
         tmplist = bs_data.find_all('span',{'class':'sub_heading'})
         new_list = []
         new_list.append(["Name:", name.text])
-        print(new_list)
-        sys.exit(0)
+        # print(new_list)
+        # sys.exit(0)
         for item in tmplist:
             new_list.append([item.text, item.next_sibling])
         _MASTER_LIST.append(new_list)
